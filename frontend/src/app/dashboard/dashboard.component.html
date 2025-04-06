@@ -1,3 +1,14 @@
 <div class="main-content">
   <h1>Dashboard</h1>
+  <p>Track and manage debt between {{ person1() }} and {{ person2() }}</p>
+  <div class="Balance-container">
+    <h2>Current Balance</h2>
+    <div class="Balance-Boxs">
+      <app-balancebox Name="{{ person1() }}"></app-balancebox>
+      <app-balancebox Name="{{ person2() }}"></app-balancebox>
+    </div>
+    <p class="Net-Balance">
+      Net Balance: {{ person1() }} owe {{ person2() }} 10฿
+    </p>
+  </div>
 </div>
