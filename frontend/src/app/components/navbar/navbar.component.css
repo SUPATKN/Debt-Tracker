@@ -1,0 +1,33 @@
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #ccc;
+}
+
+nav h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+nav li {
+  cursor: pointer;
+  font-weight: 500;
+  color: #555;
+  transition: color 0.2s;
+}
+
+nav li:hover {
+  color: #000;
+}

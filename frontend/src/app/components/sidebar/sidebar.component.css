@@ -1,0 +1,27 @@
+.container {
+  border-color: red;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 240px;
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+  padding: 1.5rem 1rem;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.container ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.container li {
+  padding: 1rem;
+}
+
+.container li:hover {
+  background-color: rgb(80, 80, 80);
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+}
