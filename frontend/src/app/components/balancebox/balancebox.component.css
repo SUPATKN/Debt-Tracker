@@ -4,7 +4,15 @@
   padding: 1rem;
   border: solid 2px;
   border-radius: 10px;
+  width: 15rem;
+}
+
+.red {
+  border-color: rgba(153, 82, 82, 0.2);
+  background-color: rgba(207, 62, 62, 0.4);
+}
+
+.green {
   border-color: rgba(82, 153, 82, 0.2);
   background-color: rgba(62, 207, 71, 0.4);
-  width: 15rem;
 }

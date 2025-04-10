@@ -1,16 +1,22 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { NavbarComponent } from "./components/navbar/navbar.component";
-import { SidebarComponent } from "./components/sidebar/sidebar.component";
-import { DashboardComponent } from "./dashboard/dashboard.component";
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { Person } from '../type';
 
 @Component({
   selector: 'app-root',
   imports: [NavbarComponent, SidebarComponent, DashboardComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent {
-  Person1 = signal('Yacht');
-  Person2 = signal('Beam');
+  person1: Person = {
+    name: 'Yacht',
+    DebtAmount: 200,
+  };
+  person2: Person = {
+    name: 'Beam',
+    DebtAmount: 300,
+  };
 }

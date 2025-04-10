@@ -31,3 +31,8 @@ nav li {
 nav li:hover {
   color: #000;
 }
+
+nav li.selected {
+  font-weight: 700;
+  color: #000;
+}

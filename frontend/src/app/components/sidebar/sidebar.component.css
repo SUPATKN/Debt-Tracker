@@ -18,6 +18,7 @@
 
 .container li {
   padding: 1rem;
+  border-radius: 10px;
 }
 
 .container li:hover {

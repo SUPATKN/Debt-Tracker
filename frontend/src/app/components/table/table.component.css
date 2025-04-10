@@ -1,0 +1,32 @@
+/* Style for table */
+table {
+  width: 100%; /* Full width */
+  border-collapse: collapse; /* Collapse borders between table cells */
+  border-radius: 10px;
+  overflow: hidden; /* Ensure the corners are rounded */
+  border: 1px solid #ddd; /* Add border to the table */
+}
+
+/* Style for table header */
+.Table-Header {
+  background-color: #f2f2f2; /* Light grey background */
+  font-weight: bold; /* Bold text for the header */
+  text-align: left; /* Align header text to the left */
+}
+
+.Table-Header th {
+  padding: 10px;
+}
+
+/* Style for table data rows */
+.Table-Data td {
+  padding: 10px; /* Padding inside the data cells */
+  border-bottom: 1px solid #ddd; /* Light border between rows */
+  text-align: left; /* Align text to the left */
+  background-color: rgb(229, 249, 249);
+}
+/* Optional: Style for the table header row itself */
+tr:first-child th {
+  background-color: #4caf50; /* Green background for the header row */
+  color: white; /* White text color */
+}
