@@ -1,4 +1,16 @@
-<div class="Box {{BGColor}}">
-  <h3>{{ Name }} owes you</h3>
-  <h4>{{ Amount }}฿</h4>
+<!-- Green -->
+<div
+  *ngIf="CurrentPersonBox !== selectedPerson(); else redTemplate"
+  class="Box {{ BGColor }}"
+>
+  <h3>{{ Debter.name }} owes you</h3>
+  <h4>{{ CurrentPersonBox?.DebtAmount }}฿</h4>
 </div>
+
+<!-- Red -->
+<ng-template #redTemplate>
+  <div class="Box {{ BGColor }}">
+    <h3>You owe {{ Debter.name }}</h3>
+    <h4>{{ CurrentPersonBox?.DebtAmount }}฿</h4>
+  </div>
+</ng-template>
