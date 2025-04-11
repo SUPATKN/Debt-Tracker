@@ -1,12 +1,12 @@
 <div class="main-content">
   <h1>Dashboard</h1>
-  <p>Track and manage debt between {{ person1.name }} and {{ person2.name }}</p>
+  <p>
+    Track and manage debt between {{ person1().name }} and
+    {{ person2().name }}
+  </p>
 
   <!-- Current Balance section -->
-  <app-current-balance
-    [person1]="person1"
-    [person2]="person2"
-  ></app-current-balance>
+  <app-current-balance></app-current-balance>
 
   <!-- Recent Transactions Section -->
   <h2>Recent Transactions</h2>

@@ -16,15 +16,17 @@
   </div>
   <!-- Person1 owe person2 -->
   <p
-    *ngIf="CheckDebtNetBalance() === person1; else person2Owe"
+    *ngIf="CheckDebtNetBalance() === person1(); else person2Owe"
     class="Net-Balance"
   >
-    Net Balance: {{ person1.name }} owe {{ person2.name }} {{ netBalance() }}฿
+    Net Balance: {{ person1().name }} owe {{ person2().name }}
+    {{ netBalance() }}฿
   </p>
   <!-- Person2 owe person1 -->
   <ng-template #person2Owe>
     <p class="Net-Balance">
-      Net Balance: {{ person2.name }} owe {{ person1.name }} {{ netBalance() }}฿
+      Net Balance: {{ person2().name }} owe {{ person1().name }}
+      {{ netBalance() }}฿
     </p>
   </ng-template>
 </div>

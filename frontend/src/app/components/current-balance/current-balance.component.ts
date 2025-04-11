@@ -11,8 +11,8 @@ import { CommonModule } from '@angular/common';
   styleUrl: './current-balance.component.css',
 })
 export class CurrentBalanceComponent {
-  @Input() person1!: Person;
-  @Input() person2!: Person;
+  person1: Signal<Person> = computed(() => this.personService.person1());
+  person2: Signal<Person> = computed(() => this.personService.person2());
 
   DebtNetBalance!: Person;
 
@@ -21,18 +21,18 @@ export class CurrentBalanceComponent {
     this.personService.selectedPerson()
   );
 
-  Debter = computed(() => {
-    return this.selectedPerson() === this.person1 ? this.person2 : this.person1;
+  Debter: Signal<Person> = computed(() => {
+    return this.selectedPerson() === this.person1() ? this.person2() : this.person1();
   });
 
   constructor(private personService: PersonService) {}
 
-  netBalance = computed(() => {
-    return Math.abs(this.person1.DebtAmount - this.person2.DebtAmount);
+  netBalance: Signal<number> = computed(() => {
+    return Math.abs(this.person1().DebtAmount - this.person2().DebtAmount);
   });
 
-  CheckDebtNetBalance = computed(() => {
-    const total = this.person1.DebtAmount - this.person2.DebtAmount;
-    return total > 0 ? this.person1 : this.person2;
+  CheckDebtNetBalance: Signal<Person> = computed(() => {
+    const total = this.person1().DebtAmount - this.person2().DebtAmount;
+    return total > 0 ? this.person1() : this.person2();
   });
 }
