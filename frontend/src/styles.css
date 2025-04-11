@@ -11,3 +11,21 @@ body {
   font-family: Arial, sans-serif;
   background-color: rgb(234, 234, 234);
 }
+
+main {
+  display: flex;
+  padding: 1rem 2.5rem;
+  height: 100%;
+  width: 100%;
+}
+
+.border-radius-with-shadow {
+  border-radius: 3px;
+  box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.35);
+  border-radius: 10px;
+}
+
+
+
+
+

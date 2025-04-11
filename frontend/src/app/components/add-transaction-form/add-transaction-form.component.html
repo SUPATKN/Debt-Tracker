@@ -1,0 +1,42 @@
+<div class="form-container border-radius-with-shadow">
+  <div class="input-field">
+    <!-- Select Who paid -->
+    <mat-form-field appearance="fill">
+      <mat-label>Who paid?</mat-label>
+      <mat-select [(value)]="whoPaid">
+        <mat-option>None</mat-option>
+        <mat-option [value]="Person1()">{{ Person1().name }}</mat-option>
+        <mat-option [value]="Person2()">{{ Person2().name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Input Amount -->
+    <mat-form-field appearance="fill">
+      <mat-label>Amount</mat-label>
+      <input matInput placeholder="Ex 200" [(ngModel)]="Amount" />
+    </mat-form-field>
+
+    <!-- Input Description -->
+    <mat-form-field appearance="fill">
+      <mat-label>Description</mat-label>
+      <input
+        matInput
+        placeholder="Ex ข้าวมันไก้ , ขนม"
+        [(ngModel)]="Description"
+      />
+    </mat-form-field>
+
+    <!-- Date Picker -->
+    <mat-form-field>
+      <mat-label>Choose a date</mat-label>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" />
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="picker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <button mat-flat-button (click)="submitTransaction()">Submit</button>
+  </div>
+</div>
