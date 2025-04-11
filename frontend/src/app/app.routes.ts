@@ -16,4 +16,11 @@ export const routes: Routes = [
         (c) => c.TransactionComponent
       ),
   },
+  {
+    path: 'History',
+    loadComponent: () =>
+      import('./pages/history/history.component').then(
+        (c) => c.HistoryComponent
+      ),
+  },
 ];

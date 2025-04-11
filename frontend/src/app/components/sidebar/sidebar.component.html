@@ -1,7 +1,22 @@
 <div class="container">
   <ul>
-    <li>Dashboard</li>
-    <li>Add Transaction</li>
-    <li>Transaction History</li>
+    <a
+      [routerLink]="''"
+      routerLinkActive="active-link"
+      [routerLinkActiveOptions]="{ exact: true }"
+      >Dashboard</a
+    >
+    <a
+      [routerLink]="'/Transaction'"
+      routerLinkActive="active-link"
+      [routerLinkActiveOptions]="{ exact: true }"
+      >Add Transaction</a
+    >
+    <a
+      [routerLink]="'/History'"
+      routerLinkActive="active-link"
+      [routerLinkActiveOptions]="{ exact: true }"
+      >Transaction History</a
+    >
   </ul>
 </div>

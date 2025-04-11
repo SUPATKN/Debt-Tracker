@@ -8,20 +8,30 @@
   color: rgb(0, 0, 0);
   padding: 1.5rem 1rem;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+
+  .active-link {
+    font-weight: bold;
+    color: #4a4a4a;
+    background-color: #d3d9df;
+  }
 }
 
 .container ul {
+  display: flex;
+  flex-direction: column;
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.container li {
+.container a {
+  text-decoration: none;
+  color: black;
   padding: 1rem;
   border-radius: 10px;
 }
 
-.container li:hover {
+.container a:hover {
   background-color: rgb(80, 80, 80);
   color: rgb(255, 255, 255);
   cursor: pointer;
