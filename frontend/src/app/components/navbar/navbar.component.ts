@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   EventEmitter,
   Input,
   input,
@@ -18,15 +19,15 @@ import { PersonService } from '../../services/person.service';
   styleUrl: './navbar.component.css',
 })
 export class NavbarComponent {
-  @Input() person1!: Person;
-  @Input() person2!: Person;
+  person1 = computed(() => this.personService.person1());
+  person2 = computed(() => this.personService.person2());
 
   selectedPerson!: Person;
 
   constructor(private personService: PersonService) {}
 
   ngOnInit() {
-    this.selectedPerson = this.person1;
+    this.selectedPerson = this.person1();
     this.personService.setSelectedPerson(this.selectedPerson);
   }
 

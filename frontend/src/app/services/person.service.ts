@@ -1,24 +1,37 @@
-import { Injectable, signal, WritableSignal } from '@angular/core';
+import { computed, Injectable, signal, WritableSignal } from '@angular/core';
 import { Person } from '../../type';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment.development';
+import { catchError, of, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class PersonService {
-  private _person1 = signal<Person>({ name: '', DebtAmount: 0 });
-  private _person2 = signal<Person>({ name: '', DebtAmount: 0 });
+  private users = signal<Person[]>([])
   private _selectedPerson = signal<Person | null>(null);
 
-  person1 = this._person1.asReadonly();
-  person2 = this._person2.asReadonly();
+  readonly person1 = computed(() => this.users()[0] ?? { name: '', amountDebt: 0 });
+  readonly person2 = computed(() => this.users()[0] ?? { name: '', amountDebt: 0 });
   selectedPerson = this._selectedPerson.asReadonly();
+
+
+  constructor(private http: HttpClient) {}
+  
+  fetchUsers() {
+    this.http.get<Person[]>(`${environment.apiUrl}/users`).pipe(
+      tap(users => {
+        this.users.set(users)
+      }),
+      catchError(error => {
+        console.error('Failed to fetch users', error);
+        return of([]);
+      })
+    ).subscribe();
+  }
 
   setSelectedPerson(person: Person) {
     this._selectedPerson.set(person);
   }
 
-  setInitPersons(p1: Person, p2: Person) {
-    this._person1.set(p1);
-    this._person2.set(p2);
-  }
 
   clearSelectedPerson() {
     this._selectedPerson.set(null);

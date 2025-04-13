@@ -2,14 +2,14 @@
   <h1>Debt Tracker</h1>
   <ul>
     <li 
-      (click)="onClickName(person1)"
-      [ngClass]="{ selected: selectedPerson === person1 }">
-      {{ person1.name }}
+      (click)="onClickName(person1())"
+      [ngClass]="{ selected: selectedPerson === person1() }">
+      {{ person1().name }}
     </li>
     <li 
-      (click)="onClickName(person2)"
-      [ngClass]="{ selected: selectedPerson === person2 }">
-      {{ person2.name }}
+      (click)="onClickName(person2())"
+      [ngClass]="{ selected: selectedPerson === person2() }">
+      {{ person2().name }}
     </li>
   </ul>
 </nav>

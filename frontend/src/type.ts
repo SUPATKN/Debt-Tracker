@@ -1,4 +1,5 @@
 export interface Person {
+  id: number;
   name: string;
-  DebtAmount: number;
+  amountDebt: number;
 }

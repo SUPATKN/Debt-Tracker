@@ -22,17 +22,19 @@ export class CurrentBalanceComponent {
   );
 
   Debter: Signal<Person> = computed(() => {
-    return this.selectedPerson() === this.person1() ? this.person2() : this.person1();
+    return this.selectedPerson() === this.person1()
+      ? this.person2()
+      : this.person1();
   });
 
   constructor(private personService: PersonService) {}
 
   netBalance: Signal<number> = computed(() => {
-    return Math.abs(this.person1().DebtAmount - this.person2().DebtAmount);
+    return Math.abs(this.person1().amountDebt - this.person2().amountDebt);
   });
 
   CheckDebtNetBalance: Signal<Person> = computed(() => {
-    const total = this.person1().DebtAmount - this.person2().DebtAmount;
+    const total = this.person1().amountDebt - this.person2().amountDebt;
     return total > 0 ? this.person1() : this.person2();
   });
 }

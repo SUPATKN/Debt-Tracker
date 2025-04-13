@@ -4,27 +4,19 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { Person } from '../type';
 import { RouterOutlet } from '@angular/router';
 import { PersonService } from './services/person.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [NavbarComponent, SidebarComponent, RouterOutlet],
+  imports: [NavbarComponent, SidebarComponent, RouterOutlet,HttpClientModule ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit {
-  person1: Person = {
-    name: 'Yacht',
-    DebtAmount: 200,
-  };
-  person2: Person = {
-    name: 'Beam',
-    DebtAmount: 300,
-  };
-
   constructor(private personService: PersonService) {}
 
   ngOnInit(): void {
-    this.personService.setInitPersons(this.person1, this.person2);
+    this.personService.fetchUsers();
   }
 }
