@@ -41,6 +41,6 @@ public class UserController {
     }
 
 
-    @PatchMapping("/users/{id}")
-    public User editUser(@PathVariable Integer id , @RequestBody User user)
+//    @PatchMapping("/users/{id}")
+//    public User editUser(@PathVariable Integer id , @RequestBody User user);
 }

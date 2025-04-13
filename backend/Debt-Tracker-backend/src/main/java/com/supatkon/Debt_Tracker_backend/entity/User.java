@@ -1,8 +1,8 @@
 package com.supatkon.Debt_Tracker_backend.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-@Data
+
+
 @Entity
 @Table(name="user")
 public class User {
@@ -19,6 +19,11 @@ public class User {
         this.name = name;
     }
 
+    public int getId() {
+        return id;
+    }
 
-
+    public void setId(int id) {
+        this.id = id;
+    }
 }
