@@ -22,17 +22,12 @@ export class NavbarComponent {
   person1 = computed(() => this.personService.person1());
   person2 = computed(() => this.personService.person2());
 
-  selectedPerson!: Person;
+  selectedPerson = computed(() => this.personService.selectedPerson());
 
   constructor(private personService: PersonService) {}
 
-  ngOnInit() {
-    this.selectedPerson = this.person1();
-    this.personService.setSelectedPerson(this.selectedPerson);
-  }
 
   onClickName(person: Person) {
-    this.selectedPerson = person;
-    this.personService.setSelectedPerson(this.selectedPerson); // ส่งไปเก็บใน shared service
+    this.personService.setSelectedPerson(person); // ส่งไปเก็บใน shared service
   }
 }
