@@ -30,11 +30,14 @@ export class CurrentBalanceComponent {
   constructor(private personService: PersonService) {}
 
   netBalance: Signal<number> = computed(() => {
-    return Math.abs(this.person1().amountDebt - this.person2().amountDebt);
+    return Math.abs(this.person1().totalDebt - this.person2().totalDebt);
   });
 
-  CheckDebtNetBalance: Signal<Person> = computed(() => {
-    const total = this.person1().amountDebt - this.person2().amountDebt;
+  CheckDebtNetBalance: Signal<Person | null> = computed(() => {
+    const total = this.person1().totalDebt - this.person2().totalDebt;
+    if(total === 0){
+      return null;
+    }
     return total > 0 ? this.person1() : this.person2();
   });
 }
