@@ -10,7 +10,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    private Integer amountDebt = 0;
+    private Integer totalDebt = 0;
 
     public User(){
 
@@ -25,5 +25,21 @@ public class User {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Integer getTotalDebt() {
+        return totalDebt;
+    }
+
+    public void setTotalDebt(Integer totalDebt) {
+        this.totalDebt = totalDebt;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
