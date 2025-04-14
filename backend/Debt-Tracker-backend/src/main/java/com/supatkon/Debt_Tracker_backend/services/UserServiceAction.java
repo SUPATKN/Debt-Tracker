@@ -30,24 +30,24 @@ public class UserServiceAction implements UserService{
     }
 
     @Override
-    public User findById(Integer id) {
+    public  Optional<User> findById(int id) {
         Optional<User> result = userRepository.findById(id);
         if(result.isPresent()){
-            return result.get();
+            return result;
         }else{
             throw new RuntimeException("ไม่พบข้อมูล"+id);
         }
     }
 
     @Override
-    public User delete(Integer id) {
+    public  Optional<User> delete(int id) {
         Optional<User> result = userRepository.findById(id);
         if(result.isPresent()){
             this.userRepository.delete(result.get());
         }else{
             throw new RuntimeException("ไม่พบข้อมูล"+id);
         }
-        return result.get();
+        return result;
     }
 
 

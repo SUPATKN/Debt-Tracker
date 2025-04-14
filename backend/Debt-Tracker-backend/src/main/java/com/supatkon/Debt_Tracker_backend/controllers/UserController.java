@@ -32,12 +32,12 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     public User getUsersById(@PathVariable Integer id){
-        return userService.findById(id);
+        return userService.findById(id).orElseThrow(()->new RuntimeException("User not found with id: " + id));
     }
 
     @DeleteMapping("/users/{id}")
     public User deleteUser(@PathVariable Integer id){
-        return this.userService.delete(id);
+        return this.userService.delete(id).orElseThrow(() -> new RuntimeException("User wanted delete not found with id: " + id));
     }
 
 
