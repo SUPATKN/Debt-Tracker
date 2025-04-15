@@ -1,5 +1,6 @@
 import { Component, computed, Input, Signal } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -7,19 +8,21 @@ import {
   FormsModule,
   NgForm,
   ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import {
-  provideNativeDateAdapter,
-} from '@angular/material/core';
+import { provideNativeDateAdapter } from '@angular/material/core';
 import { PersonService } from '../../services/person.service';
 import { Person } from '../../../type';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import { FormDto, TransactionFormModel } from './dto';
+import { DebtService } from '../../services/debt.service';
 
 @Component({
   selector: 'app-add-transaction-form',
@@ -32,69 +35,106 @@ import { CommonModule } from '@angular/common';
     MatDatepickerModule,
     MatButtonModule,
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
   ],
   templateUrl: './add-transaction-form.component.html',
   styleUrl: './add-transaction-form.component.css',
 })
 export class AddTransactionFormComponent {
-  constructor(private personService: PersonService,  private fb: FormBuilder) {
+  constructor(
+    private personService: PersonService,
+    private debtService: DebtService,
+    private fb: FormBuilder
+  ) {
     this.createForm();
   }
 
-  
-  transactionForm!: FormGroup;
+  transactionForm!: FormGroup<TransactionFormModel>;
   Person1: Signal<Person> = computed(() => this.personService.person1());
   Person2: Signal<Person> = computed(() => this.personService.person2());
 
-
-
-  whoPaid!: Person;
-  whoReceived!: Person;
-  Amount!: number;
-  selectedDate: any;
-  Description!: string;
-
   // getter
-  get whoPaidControl() { return this.transactionForm.get('whoPaid'); }
-  get whoReceivedControl() { return this.transactionForm.get('whoReceived'); }
-  get amountControl() { return this.transactionForm.get('amount'); }
-  get descriptionControl() { return this.transactionForm.get('description'); }
-  get transactionDateControl() { return this.transactionForm.get('transactionDate'); }
-
-  createForm() {
-    this.transactionForm = this.fb.group({
-      whoPaid: ['', Validators.required],
-      whoReceived: ['', [Validators.required, this.differentPersonValidator()]],
-      amount: ['', [Validators.required, Validators.min(0)]],
-      description: ['', Validators.required],
-      transactionDate: [new Date(), Validators.required]
-    });
+  get whoPaidControl(): FormControl<Person> {
+    return this.transactionForm.controls.whoPaid;
   }
 
+  get whoReceivedControl(): FormControl<Person> {
+    return this.transactionForm.controls.whoReceived;
+  }
 
-  differentPersonValidator() {
-    return (control: FormControl) => {
+  get amountControl(): FormControl<number> {
+    return this.transactionForm.controls.amount;
+  }
+
+  get descriptionControl(): FormControl<string> {
+    return this.transactionForm.controls.description;
+  }
+
+  get transactionDateControl(): FormControl<Date> {
+    return this.transactionForm.controls.transactionDate;
+  }
+
+  createForm() {
+    // สร้าง typed form group ด้วย nonNullable API
+    this.transactionForm = this.fb.nonNullable.group({
+      whoPaid: this.fb.nonNullable.control({} as Person, Validators.required),
+      whoReceived: this.fb.nonNullable.control({} as Person, [
+        Validators.required,
+        this.differentPersonValidator(),
+      ]),
+      amount: this.fb.control<number | null>(null, [
+        Validators.required,
+        Validators.min(0),
+      ]),
+      description: this.fb.nonNullable.control('', Validators.required),
+      transactionDate: this.fb.nonNullable.control(
+        new Date(),
+        Validators.required
+      ),
+    }) as FormGroup<TransactionFormModel>; // type assertion เพื่อให้ TypeScript รู้จัก type ที่ถูกต้อง
+  }
+
+  differentPersonValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
       if (!control.parent) {
         return null; // Form is initializing
       }
-      
-      const whoPaid = control.parent?.get('whoPaid')?.value;
+
+      const formGroup = control.parent as FormGroup;
+      const whoPaid = formGroup.get('whoPaid')?.value;
       const whoReceived = control.value;
-      
+
       if (whoPaid && whoReceived && whoPaid.id === whoReceived.id) {
         return { samePersonError: true };
       }
-      
+
       return null;
     };
   }
 
   submitTransaction() {
     if (this.transactionForm.valid) {
-      const formValues = this.transactionForm.value;
+      const formValues = this.transactionForm.getRawValue();
+
+      let body: FormDto = {
+        whoPaidId: formValues.whoPaid.id,
+        whoReceivedId: formValues.whoReceived.id,
+        debt: formValues.amount,
+        description: formValues.description,
+        date: formValues.transactionDate,
+      };
+      console.log(body);
       console.log(formValues);
-      // Send to service or API
+
+      // sent data to API
+      this.debtService.postDebt(body).subscribe({
+        next: (res) => {
+          console.log('✅ POST Success:', res);
+        },
+        error: (err) => {
+          console.error('❌ POST Failed:', err);
+        },
+      });
     } else {
       // Mark all fields as touched to trigger validation visuals
       this.transactionForm.markAllAsTouched();
