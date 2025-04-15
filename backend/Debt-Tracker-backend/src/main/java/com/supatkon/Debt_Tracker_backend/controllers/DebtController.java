@@ -37,8 +37,6 @@ public class DebtController {
 
     @PostMapping("/debts")
     public Debt addDebt(@RequestBody DebtDto debtDto) {
-        System.out.println(debtDto.getWhoPaidId());
-        System.out.println(debtDto.getWhoReceivedId());
         User whoPaid = userService.findById(debtDto.getWhoPaidId()).orElseThrow(() -> new RuntimeException("User whoPaid not found"));
         User whoReceived = userService.findById(debtDto.getWhoReceivedId()).orElseThrow(() -> new RuntimeException("User whoPaid not found"));
 

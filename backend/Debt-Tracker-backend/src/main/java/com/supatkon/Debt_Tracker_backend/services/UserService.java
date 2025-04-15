@@ -10,4 +10,7 @@ public interface UserService {
     List<User> getUsers();
     Optional<User> findById(int id);
     Optional<User> delete(int id);
+    void Increase(User user,int amount);
+    void Decrease(User user,int amount);
+
 }

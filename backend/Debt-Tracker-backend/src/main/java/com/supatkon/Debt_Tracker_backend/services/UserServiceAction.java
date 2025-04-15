@@ -50,5 +50,20 @@ public class UserServiceAction implements UserService{
         return result;
     }
 
+    @Override
+    public void Increase(User user, int amount) {
+       user.setTotalDebt(user.getTotalDebt()+amount);
+       this.userRepository.save(user);
+    }
+
+    @Override
+    public void Decrease(User user, int amount) {
+        if (user.getTotalDebt() - amount > 0) {
+            user.setTotalDebt(user.getTotalDebt() - amount);
+            this.userRepository.save(user);
+        } else {
+            throw new RuntimeException("ลบหนี้ไม่สำเร็จเพราะติดลบ");
+        }
+    }
 
 }
