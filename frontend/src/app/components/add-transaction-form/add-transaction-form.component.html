@@ -1,42 +1,66 @@
 <div class="form-container border-radius-with-shadow">
-  <div class="input-field">
-    <!-- Select Who paid -->
-    <mat-form-field appearance="fill">
-      <mat-label>Who paid?</mat-label>
-      <mat-select [(value)]="whoPaid">
-        <mat-option>None</mat-option>
-        <mat-option [value]="Person1()">{{ Person1().name }}</mat-option>
-        <mat-option [value]="Person2()">{{ Person2().name }}</mat-option>
-      </mat-select>
-    </mat-form-field>
+  <form [formGroup]="transactionForm" (ngSubmit)="submitTransaction()">
+    <div class="input-field">
+      <!-- Select Who paid -->
+      <mat-form-field appearance="fill">
+        <mat-label>Who paid?</mat-label>
+        <mat-select formControlName="whoPaid" (selectionChange)="onWhoPaidChange()">
+          <mat-option [value]="Person1()">{{ Person1().name }}</mat-option>
+          <mat-option [value]="Person2()">{{ Person2().name }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="whoPaidControl?.errors?.['required'] && whoPaidControl?.touched">
+          Please select who paid
+        </mat-error>
+      </mat-form-field>
 
-    <!-- Input Amount -->
-    <mat-form-field appearance="fill">
-      <mat-label>Amount</mat-label>
-      <input matInput placeholder="Ex 200" [(ngModel)]="Amount" />
-    </mat-form-field>
+      <!-- Select Who Received -->
+      <mat-form-field appearance="fill">
+        <mat-label>Who received?</mat-label>
+        <mat-select formControlName="whoReceived">
+          <mat-option [value]="Person1()">{{ Person1().name }}</mat-option>
+          <mat-option [value]="Person2()">{{ Person2().name }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="whoReceivedControl?.errors?.['required'] && whoReceivedControl?.touched">
+          Please select who received
+        </mat-error>
+        <mat-error *ngIf="whoReceivedControl?.errors?.['samePersonError'] && whoReceivedControl?.touched">
+          Sender and receiver cannot be the same person
+        </mat-error>
+      </mat-form-field>
 
-    <!-- Input Description -->
-    <mat-form-field appearance="fill">
-      <mat-label>Description</mat-label>
-      <input
-        matInput
-        placeholder="Ex ข้าวมันไก้ , ขนม"
-        [(ngModel)]="Description"
-      />
-    </mat-form-field>
+      <!-- Input Amount -->
+      <mat-form-field appearance="fill">
+        <mat-label>Amount</mat-label>
+        <input matInput type="number" formControlName="amount" placeholder="Ex 200">
+        <mat-error *ngIf="amountControl?.errors?.['required'] && amountControl?.touched">
+          Amount is required
+        </mat-error>
+        <mat-error *ngIf="amountControl?.errors?.['min'] && amountControl?.touched">
+          Amount must be greater than 0
+        </mat-error>
+      </mat-form-field>
 
-    <!-- Date Picker -->
-    <mat-form-field>
-      <mat-label>Choose a date</mat-label>
-      <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" />
-      <mat-datepicker-toggle
-        matIconSuffix
-        [for]="picker"
-      ></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
+      <!-- Input Description -->
+      <mat-form-field appearance="fill">
+        <mat-label>Description</mat-label>
+        <input matInput formControlName="description" placeholder="Ex ข้าวมันไก้, ขนม">
+        <mat-error *ngIf="descriptionControl?.errors?.['required'] && descriptionControl?.touched">
+          Description is required
+        </mat-error>
+      </mat-form-field>
 
-    <button mat-flat-button (click)="submitTransaction()">Submit</button>
-  </div>
+      <!-- Date Picker -->
+      <mat-form-field>
+        <mat-label>Choose a date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="transactionDate">
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="transactionDateControl?.errors?.['required'] && transactionDateControl?.touched">
+          Date is required
+        </mat-error>
+      </mat-form-field>
+
+      <button mat-flat-button color="primary" type="submit" [disabled]="transactionForm.invalid">Submit</button>
+    </div>
+  </form>
 </div>
