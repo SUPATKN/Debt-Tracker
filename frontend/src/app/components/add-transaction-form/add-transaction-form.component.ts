@@ -23,7 +23,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { FormDto, TransactionFormModel } from './dto';
 import { DebtService } from '../../services/debt.service';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-add-transaction-form',
   providers: [provideNativeDateAdapter()],
@@ -44,7 +44,8 @@ export class AddTransactionFormComponent {
   constructor(
     private personService: PersonService,
     private debtService: DebtService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private snackBar: MatSnackBar
   ) {
     this.createForm();
   }
@@ -114,31 +115,43 @@ export class AddTransactionFormComponent {
 
   submitTransaction() {
     if (this.transactionForm.valid) {
-      const formValues = this.transactionForm.getRawValue();
-
-      let body: FormDto = {
-        whoPaidId: formValues.whoPaid.id,
-        whoReceivedId: formValues.whoReceived.id,
-        debt: formValues.amount,
-        description: formValues.description,
-        date: formValues.transactionDate,
-      };
-      console.log(body);
-      console.log(formValues);
-
-      // sent data to API
-      this.debtService.postDebt(body).subscribe({
-        next: (res) => {
-          console.log('✅ POST Success:', res);
-        },
-        error: (err) => {
-          console.error('❌ POST Failed:', err);
-        },
-      });
+      this.PostApi();
     } else {
       // Mark all fields as touched to trigger validation visuals
       this.transactionForm.markAllAsTouched();
     }
+  }
+
+  PostApi() {
+    const formValues = this.transactionForm.getRawValue();
+
+    let body: FormDto = {
+      whoPaidId: formValues.whoPaid.id,
+      whoReceivedId: formValues.whoReceived.id,
+      debt: formValues.amount,
+      description: formValues.description,
+      date: formValues.transactionDate,
+    };
+
+    // sent data to API
+    this.debtService.postDebt(body).subscribe({
+      next: (res) => {
+        this.snackBar.open(
+          `${formValues.whoPaid.name} จ่ายค่า ${formValues.description} ราคา ${formValues.amount} บาทให้ ${formValues.whoReceived.name}`,
+          'Close',
+          {
+            duration: 5000,
+          }
+        );
+        this.transactionForm.reset(); // reset form if needed
+      },
+      error: (err) => {
+        this.snackBar.open('❌ Failed to add transaction.', 'Close', {
+          duration: 5000,
+        });
+        console.error(err);
+      },
+    });
   }
 
   // Update validation when whoPaid changes
