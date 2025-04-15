@@ -8,10 +8,9 @@ import com.supatkon.Debt_Tracker_backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -24,6 +23,16 @@ public class DebtController {
     public DebtController(DebtService debtService, UserService userService) {
         this.debtService = debtService;
         this.userService = userService;
+    }
+
+    @GetMapping("/debts")
+    public List<Debt> getDebts(){
+        return this.debtService.getDebts();
+    }
+
+    @GetMapping("/debs/{id}")
+    public Debt getDebtById(@PathVariable int id){
+        return this.debtService.findById(id).orElseThrow();
     }
 
     @PostMapping("/debts")
